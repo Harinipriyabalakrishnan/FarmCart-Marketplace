@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 90 20% 97%;
+    --foreground: 150 30% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 150 30% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 150 30% 10%;
+
+    --primary: 142 55% 35%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 36 60% 50%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 90 15% 92%;
+    --muted-foreground: 150 10% 45%;
+
+    --accent: 142 40% 90%;
+    --accent-foreground: 142 55% 25%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 90 15% 88%;
+    --input: 90 15% 88%;
+    --ring: 142 55% 35%;
+
+    --radius: 0.75rem;
+
+    --earth: 30 40% 45%;
+    --earth-foreground: 0 0% 100%;
+    --earth-light: 36 35% 92%;
+    --success: 142 70% 40%;
+    --warning: 38 92% 50%;
+    --info: 210 80% 55%;
+
+    --sidebar-background: 142 30% 15%;
+    --sidebar-foreground: 90 20% 90%;
+    --sidebar-primary: 142 55% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 142 25% 22%;
+    --sidebar-accent-foreground: 90 20% 90%;
+    --sidebar-border: 142 20% 25%;
+    --sidebar-ring: 142 55% 45%;
+
+    --font-heading: 'Space Grotesk', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+  }
+}
+
+@layer utilities {
+  .font-heading {
+    font-family: var(--font-heading);
+  }
+  .font-body {
+    font-family: var(--font-body);
+  }
+  .gradient-primary {
+    background: linear-gradient(135deg, hsl(142, 55%, 35%), hsl(142, 70%, 45%));
+  }
+  .gradient-hero {
+    background: linear-gradient(135deg, hsl(142, 30%, 15%), hsl(142, 55%, 30%));
+  }
+  .gradient-earth {
+    background: linear-gradient(135deg, hsl(36, 60%, 50%), hsl(30, 40%, 45%));
+  }
+  .gradient-card {
+    background: linear-gradient(180deg, hsl(0, 0%, 100%), hsl(90, 20%, 97%));
+  }
+  .text-gradient-primary {
+    background: linear-gradient(135deg, hsl(142, 55%, 35%), hsl(142, 70%, 50%));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .shadow-card {
+    box-shadow: 0 4px 24px -4px hsl(142 20% 20% / 0.08);
+  }
+  .shadow-elevated {
+    box-shadow: 0 12px 40px -8px hsl(142 20% 20% / 0.15);
+  }
+}
