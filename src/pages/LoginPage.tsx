@@ -1,44 +1,90 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { Eye, EyeOff, Leaf } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Leaf } from "lucide-react";
+import axios from "axios";
 
 export default function LoginPage() {
-  const [show, setShow] = useState(false);
+
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async (e:any) => {
+    e.preventDefault();
+
+    try {
+
+      const res = await axios.post("http://localhost:5000/login", {
+        email,
+        password
+      });
+
+      alert("Login successful!");
+
+      console.log(res.data);
+
+      if(res.data.user.role === "farmer"){
+      navigate("/farmer-dashboard")
+      }
+      else if(res.data.user.role === "buyer"){
+      navigate("/buyer-dashboard")
+    }
+
+    } catch (error) {
+
+      console.error(error);
+      alert("Invalid login");
+
+    }
+  };
 
   return (
     <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12">
       <div className="w-full max-w-md">
+
         <div className="text-center">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl gradient-primary">
-            <Leaf className="h-7 w-7 text-primary-foreground" />
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-green-600">
+            <Leaf className="h-7 w-7 text-white" />
           </div>
-          <h1 className="mt-4 font-heading text-2xl font-bold text-foreground">Welcome back</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Sign in to your FarmCart account</p>
+
+          <h1 className="mt-4 text-2xl font-bold">Welcome back</h1>
+          <p className="mt-1 text-sm text-gray-500">
+            Sign in to your FarmCart account
+          </p>
         </div>
 
-        <form className="mt-8 space-y-4" onSubmit={(e) => e.preventDefault()}>
-          <div>
-            <label className="mb-1.5 block text-sm font-medium text-foreground">Email</label>
-            <input type="email" placeholder="farmer@example.com" className="w-full rounded-xl border border-input bg-background px-4 py-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
-          </div>
-          <div>
-            <label className="mb-1.5 block text-sm font-medium text-foreground">Password</label>
-            <div className="relative">
-              <input type={show ? "text" : "password"} placeholder="••••••••" className="w-full rounded-xl border border-input bg-background px-4 py-3 pr-10 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring" />
-              <button type="button" onClick={() => setShow(!show)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-                {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-              </button>
-            </div>
-          </div>
-          <button type="submit" className="w-full rounded-xl gradient-primary py-3 text-sm font-semibold text-primary-foreground transition-shadow hover:shadow-elevated">
+        <form className="mt-8 space-y-4" onSubmit={handleLogin}>
+
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e)=>setEmail(e.target.value)}
+            className="w-full border p-3 rounded-lg"
+          />
+
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e)=>setPassword(e.target.value)}
+            className="w-full border p-3 rounded-lg"
+          />
+
+          <button className="w-full bg-green-600 text-white py-3 rounded-lg">
             Sign In
           </button>
+
         </form>
 
-        <p className="mt-6 text-center text-sm text-muted-foreground">
+        <p className="mt-6 text-center text-sm">
           Don't have an account?{" "}
-          <Link to="/register" className="font-medium text-primary hover:underline">Create account</Link>
+          <Link to="/register" className="text-green-600">
+            Create account
+          </Link>
         </p>
+
       </div>
     </div>
   );
