@@ -2,8 +2,11 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Leaf } from "lucide-react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {
+  const navigate = useNavigate();
+
   const [role, setRole] = useState<"farmer" | "buyer">("farmer");
 
   const [formData, setFormData] = useState({
@@ -11,8 +14,8 @@ export default function RegisterPage() {
     lastName: "",
     email: "",
     phone: "",
-    location: "",
     password: "",
+    farmLocation: "",
   });
 
   const handleChange = (e: any) => {
@@ -26,13 +29,17 @@ export default function RegisterPage() {
     e.preventDefault();
 
     try {
+
       const res = await axios.post("http://localhost:5000/register", {
         ...formData,
         role,
       });
 
       alert("Account created successfully!");
+      navigate("/login");
+
       console.log(res.data);
+
     } catch (error) {
       console.error(error);
       alert("Registration failed");
@@ -56,7 +63,7 @@ export default function RegisterPage() {
 
         <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
 
-          {/* Role toggle */}
+          {/* Role Toggle */}
           <div className="flex rounded-xl border p-1">
             {(["farmer", "buyer"] as const).map((r) => (
               <button
@@ -106,8 +113,8 @@ export default function RegisterPage() {
 
           {role === "farmer" && (
             <input
-              name="location"
-              value={formData.location}
+              name="farmLocation"
+              value={formData.farmLocation}
               onChange={handleChange}
               placeholder="Farm Location"
               className="w-full border p-3 rounded-lg"
@@ -123,9 +130,13 @@ export default function RegisterPage() {
             className="w-full border p-3 rounded-lg"
           />
 
-          <button className="w-full bg-green-600 text-white py-3 rounded-lg">
+          <button
+            type="submit"
+            className="w-full bg-green-600 text-white py-3 rounded-lg"
+          >
             Create Account
           </button>
+
         </form>
 
         <p className="mt-6 text-center text-sm">
@@ -134,6 +145,7 @@ export default function RegisterPage() {
             Sign in
           </Link>
         </p>
+
       </div>
     </div>
   );

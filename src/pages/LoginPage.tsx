@@ -24,17 +24,24 @@ export default function LoginPage() {
 
       console.log(res.data);
 
+      // ✅ Save user session
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+
+      // ✅ Redirect based on role
       if(res.data.user.role === "farmer"){
-      navigate("/farmer-dashboard")
+        navigate("/farmer-dashboard")
       }
       else if(res.data.user.role === "buyer"){
-      navigate("/buyer-dashboard")
-    }
+        navigate("/buyer-dashboard")
+      }
+      else if(res.data.user.role === "admin"){
+        navigate("/admin")
+      }
 
     } catch (error) {
 
       console.error(error);
-      alert("Invalid login");
+      alert("Invalid email or password");
 
     }
   };
@@ -62,6 +69,7 @@ export default function LoginPage() {
             value={email}
             onChange={(e)=>setEmail(e.target.value)}
             className="w-full border p-3 rounded-lg"
+            required
           />
 
           <input
@@ -70,9 +78,13 @@ export default function LoginPage() {
             value={password}
             onChange={(e)=>setPassword(e.target.value)}
             className="w-full border p-3 rounded-lg"
+            required
           />
 
-          <button className="w-full bg-green-600 text-white py-3 rounded-lg">
+          <button
+            type="submit"
+            className="w-full bg-green-600 text-white py-3 rounded-lg"
+          >
             Sign In
           </button>
 
