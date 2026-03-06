@@ -19,9 +19,9 @@ export default function HomePage() {
         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: "radial-gradient(circle at 30% 50%, hsl(142, 55%, 45%) 0%, transparent 50%)" }} />
         <div className="container mx-auto px-4 text-center relative">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span className="inline-block rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-sm font-medium text-primary-foreground/90 mb-6">
-              🌾 AI-Powered Agriculture Marketplace
-            </span>
+            <div className="border border-green-300 rounded-full px-6 py-2 shadow-sm">
+                AI-Powered Agriculture Marketplace
+            </div>
             <h1 className="font-heading text-4xl font-extrabold leading-tight text-primary-foreground md:text-6xl lg:text-7xl">
               Farm Fresh, <br className="hidden md:block" />
               <span className="text-emerald-300">Directly to You</span>

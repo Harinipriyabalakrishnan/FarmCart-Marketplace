@@ -9,6 +9,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
   return (
     <div className="group overflow-hidden rounded-xl border border-border bg-card shadow-card transition-all hover:shadow-elevated">
+        <div className="border border-green-200 rounded-xl shadow-sm hover:shadow-lg transition"></div>
       <Link to={`/product/${product.id}`}>
         <div className="relative aspect-[4/3] overflow-hidden bg-accent">
           <div className="flex h-full items-center justify-center text-6xl">🌾</div>

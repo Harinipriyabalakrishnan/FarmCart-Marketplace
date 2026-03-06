@@ -11,6 +11,7 @@ interface StatCardProps {
 export default function StatCard({ title, value, change, icon, trend }: StatCardProps) {
   return (
     <div className="rounded-xl border border-border bg-card p-5 shadow-card">
+        <div className="border border-green-200 rounded-xl shadow-sm hover:shadow-lg transition"></div>
       <div className="flex items-start justify-between">
         <div>
           <p className="text-sm text-muted-foreground">{title}</p>
