@@ -7,116 +7,213 @@ interface Message {
   content: string;
 }
 
-const quickReplies = ["Best fertilizer for wheat?", "How to control pests?", "Irrigation tips", "Weather impact on crops"];
+const quickReplies = [
+  "Best fertilizer for wheat?",
+  "How to control pests?",
+  "Irrigation tips",
+  "Weather impact on crops",
+];
 
 export default function ChatBot() {
+
   const [open, setOpen] = useState(false);
+
   const [messages, setMessages] = useState<Message[]>([
-    { role: "assistant", content: "Hello! 🌱 I'm FarmCart AI assistant. Ask me anything about farming, crops, fertilizers, pest control, or weather conditions!" },
+    {
+      role: "assistant",
+      content:
+        "Hello! 🌱 I'm FarmCart AI assistant. Ask me anything about farming, crops, fertilizers, pest control, or weather conditions!",
+    },
   ]);
+
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
 
   const sendMessage = async (text: string) => {
+
     if (!text.trim()) return;
+
     const userMsg: Message = { role: "user", content: text };
+
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
     setLoading(true);
 
-    // Mock AI response
     setTimeout(() => {
+
       const responses: Record<string, string> = {
-        fertilizer: "For wheat, I recommend using NPK (12-32-16) at sowing time, followed by urea top-dressing after 21 days. Organic options include vermicompost at 2 tonnes/acre.",
-        pest: "Common pest control methods:\n1. **Neem oil spray** - natural pesticide\n2. **Crop rotation** - breaks pest cycles\n3. **Companion planting** - marigolds repel many insects\n4. **Biological control** - introduce beneficial insects",
-        irrigation: "Smart irrigation tips:\n- **Drip irrigation** saves 30-50% water\n- Water early morning to reduce evaporation\n- Monitor soil moisture with sensors\n- Mulching reduces water needs by 25%",
-        weather: "Weather affects crops significantly:\n- **High humidity** → fungal disease risk\n- **Frost** → cover crops with mulch\n- **Heavy rain** → ensure proper drainage\n- Use weather forecasts to plan spraying schedules",
+
+        fertilizer:
+          "For wheat, use NPK (12-32-16) during sowing and apply urea after 21 days. Organic option: vermicompost (2 tonnes/acre).",
+
+        pest:
+          "Pest control tips:\n1. Neem oil spray\n2. Crop rotation\n3. Marigold companion planting\n4. Use beneficial insects",
+
+        irrigation:
+          "Irrigation tips:\n• Drip irrigation saves 30-50% water\n• Water early morning\n• Use soil moisture sensors\n• Mulching reduces water loss",
+
+        weather:
+          "Weather impact:\n• High humidity → fungal diseases\n• Frost → cover crops\n• Heavy rain → ensure drainage\n• Follow weather forecasts for spraying",
       };
-      const key = Object.keys(responses).find((k) => text.toLowerCase().includes(k));
-      setMessages((prev) => [...prev, { role: "assistant", content: key ? responses[key] : "That's a great question! Based on current agricultural best practices, I'd recommend consulting your local agricultural extension office for region-specific advice. In the meantime, ensure proper soil testing, adequate irrigation, and timely fertilizer application for optimal crop yield. 🌾" }]);
+
+      const key = Object.keys(responses).find((k) =>
+        text.toLowerCase().includes(k)
+      );
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content:
+            key
+              ? responses[key]
+              : "That's a great question! 🌾 I recommend soil testing, proper irrigation, and balanced fertilizer usage for best crop yield.",
+        },
+      ]);
+
       setLoading(false);
-    }, 1000);
+
+    }, 900);
   };
 
   return (
     <>
+
+      {/* CHAT WINDOW */}
+
       <AnimatePresence>
+
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
+            initial={{ opacity: 0, y: 40, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            className="fixed bottom-24 right-4 z-50 flex h-[500px] w-[360px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-elevated md:bottom-6 md:right-6"
+            exit={{ opacity: 0, y: 40, scale: 0.95 }}
+            className="fixed bottom-24 right-4 z-50 flex h-[420px] w-[340px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border bg-white shadow-2xl md:bottom-20 md:right-6"
           >
-            <div className="flex items-center justify-between gradient-primary px-4 py-3">
+
+            {/* HEADER */}
+
+            <div className="flex items-center justify-between bg-green-600 px-4 py-3">
+
               <div className="flex items-center gap-2">
                 <span className="text-lg">🌱</span>
                 <div>
-                  <p className="text-sm font-semibold text-primary-foreground">FarmCart AI</p>
-                  <p className="text-[10px] text-primary-foreground/70">Farming Assistant</p>
+                  <p className="text-sm font-semibold text-white">
+                    FarmCart AI
+                  </p>
+                  <p className="text-[10px] text-green-100">
+                    Farming Assistant
+                  </p>
                 </div>
               </div>
-              <button onClick={() => setOpen(false)} className="rounded-lg p-1 text-primary-foreground/80 hover:text-primary-foreground">
-                <X className="h-5 w-5" />
+
+              <button
+                onClick={() => setOpen(false)}
+                className="text-white/80 hover:text-white"
+              >
+                <X size={18} />
               </button>
+
             </div>
 
-            <div className="flex-1 space-y-3 overflow-y-auto p-4">
+            {/* CHAT MESSAGES */}
+
+            <div className="flex-1 space-y-3 overflow-y-auto p-4 text-sm">
+
               {messages.map((m, i) => (
-                <div key={i} className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}>
-                  <div className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm ${
-                    m.role === "user" ? "gradient-primary text-primary-foreground" : "bg-muted text-foreground"
-                  }`}>
-                    <p className="whitespace-pre-line">{m.content}</p>
+                <div
+                  key={i}
+                  className={`flex ${
+                    m.role === "user"
+                      ? "justify-end"
+                      : "justify-start"
+                  }`}
+                >
+
+                  <div
+                    className={`max-w-[80%] rounded-xl px-3 py-2 ${
+                      m.role === "user"
+                        ? "bg-green-600 text-white"
+                        : "bg-gray-100 text-gray-800"
+                    }`}
+                  >
+                    <p className="whitespace-pre-line">
+                      {m.content}
+                    </p>
                   </div>
+
                 </div>
               ))}
+
               {loading && (
-                <div className="flex justify-start">
-                  <div className="rounded-2xl bg-muted px-4 py-3">
-                    <div className="flex gap-1">
-                      <span className="h-2 w-2 animate-bounce rounded-full bg-muted-foreground" style={{ animationDelay: "0ms" }} />
-                      <span className="h-2 w-2 animate-bounce rounded-full bg-muted-foreground" style={{ animationDelay: "150ms" }} />
-                      <span className="h-2 w-2 animate-bounce rounded-full bg-muted-foreground" style={{ animationDelay: "300ms" }} />
-                    </div>
-                  </div>
+                <div className="text-xs text-gray-400">
+                  FarmCart AI is typing...
                 </div>
               )}
+
             </div>
 
+            {/* QUICK REPLIES */}
+
             {messages.length <= 1 && (
-              <div className="flex flex-wrap gap-2 border-t border-border px-4 py-3">
+              <div className="flex flex-wrap gap-2 border-t px-3 py-2">
                 {quickReplies.map((q) => (
-                  <button key={q} onClick={() => sendMessage(q)} className="rounded-full border border-border px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground">
+                  <button
+                    key={q}
+                    onClick={() => sendMessage(q)}
+                    className="rounded-full border px-3 py-1 text-xs hover:bg-gray-100"
+                  >
                     {q}
                   </button>
                 ))}
               </div>
             )}
 
-            <div className="border-t border-border p-3">
-              <form onSubmit={(e) => { e.preventDefault(); sendMessage(input); }} className="flex gap-2">
+            {/* INPUT */}
+
+            <div className="border-t p-3">
+
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  sendMessage(input);
+                }}
+                className="flex gap-2"
+              >
+
                 <input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask about farming..."
-                  className="flex-1 rounded-xl border border-input bg-background px-4 py-2.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
+                  className="flex-1 rounded-lg border px-3 py-2 text-sm focus:outline-none"
                 />
-                <button type="submit" disabled={!input.trim() || loading} className="rounded-xl gradient-primary p-2.5 text-primary-foreground disabled:opacity-50">
-                  <Send className="h-4 w-4" />
+
+                <button
+                  type="submit"
+                  disabled={!input.trim() || loading}
+                  className="rounded-lg bg-green-600 p-2 text-white disabled:opacity-40"
+                >
+                  <Send size={16} />
                 </button>
+
               </form>
+
             </div>
+
           </motion.div>
         )}
+
       </AnimatePresence>
+
+      {/* FLOATING BUTTON */}
 
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-20 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full gradient-primary shadow-elevated animate-pulse-glow md:bottom-6 md:right-6"
+        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green-600 text-white shadow-lg hover:scale-105 transition"
       >
-        <MessageCircle className="h-6 w-6 text-primary-foreground" />
+        {open ? <X size={22} /> : <MessageCircle size={22} />}
       </button>
+
     </>
   );
 }

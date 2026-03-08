@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Leaf, TrendingUp, Cloud, Bot, Satellite, Shield } from "lucide-react";
-
+import heroFarm from "../assets/images/home.jpg";
 const features = [
   { icon: <Leaf className="h-6 w-6" />, title: "Direct Farm Sales", desc: "Buy directly from farmers. No middlemen, fair prices." },
   { icon: <TrendingUp className="h-6 w-6" />, title: "AI Price Prediction", desc: "ML-powered market price forecasting and trends." },
@@ -15,56 +15,50 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-        <section className="bg-gradient-to-r from-green-900 via-green-800 to-green-700 text-white py-28">
-          <div className="max-w-6xl mx-auto text-center px-6">
+<section className="relative text-white py-28">
 
-            <div className="inline-block border border-white/40 rounded-full px-5 py-2 mb-6 text-sm">
-              🌾 AI-Powered Agriculture Marketplace
-            </div>
+  {/* Background Image */}
+  <img
+    src={heroFarm}
+    alt="Farm"
+    className="absolute inset-0 w-full h-full object-cover"
+  />
 
-            <h1 className="text-6xl font-bold leading-tight">
-              Farm Fresh, <br />
-              <span className="text-green-300">Directly to You</span>
-            </h1>
+  {/* Dark overlay */}
+  <div className="absolute inset-0 bg-black/50"></div>
 
-            <p className="mt-6 text-lg text-gray-200 max-w-3xl mx-auto">
-               Connect with local farmers, get AI-powered crop recommendations,
-               real-time market prices, and smart farming insights — all in one platform.
-            </p>
+  {/* Content */}
+  <div className="relative max-w-6xl mx-auto text-center px-6">
 
-            <div className="mt-10 flex justify-center gap-6">
+    <div className="inline-block border border-white/40 rounded-full px-5 py-2 mb-6 text-sm">
+      🌾 AI-Powered Agriculture Marketplace
+    </div>
 
-              <button className="bg-white text-green-800 font-semibold px-6 py-3 rounded-lg hover:bg-gray-200 transition">
-                Explore Marketplace →
-              </button>
+    <h1 className="text-6xl font-bold leading-tight">
+      Farm Fresh, <br />
+      <span className="text-green-300">Directly to You</span>
+    </h1>
 
-              <button className="border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-green-800 transition">
-                Start Selling
-              </button>
+    <p className="mt-6 text-lg text-gray-200 max-w-3xl mx-auto">
+      Connect with local farmers, get AI-powered crop recommendations,
+      real-time market prices, and smart farming insights — all in one platform.
+    </p>
 
-           </div>
+    <div className="mt-10 flex justify-center gap-6">
 
-         </div>
-       </section>
-     
+      <button className="bg-white text-green-800 font-semibold px-6 py-3 rounded-lg hover:bg-gray-200 transition">
+        Explore Marketplace →
+      </button>
 
-      {/* Stats */}
-      <section className="border-b border-border bg-card py-12">
-        <div className="container mx-auto grid grid-cols-2 gap-6 px-4 md:grid-cols-4">
-          {[
-            { value: "5,000+", label: "Active Farmers" },
-            { value: "₹2.5Cr", label: "Monthly Trade" },
-            { value: "15,000+", label: "Products Listed" },
-            { value: "50+", label: "Districts" },
-          ].map((s) => (
-            <div key={s.label} className="text-center">
-              <p className="font-heading text-3xl font-bold text-foreground">{s.value}</p>
-              <p className="mt-1 text-sm text-muted-foreground">{s.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+      <button className="border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-green-800 transition">
+        Start Selling
+      </button>
 
+    </div>
+
+  </div>
+
+</section>
       {/* Features */}
       <section className="py-20">
         <div className="container mx-auto px-4">
