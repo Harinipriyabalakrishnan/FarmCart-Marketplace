@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type React from "react";
 import { Package, DollarSign, ShoppingBag, TrendingUp, Cloud, Satellite, Brain, Plus } from "lucide-react";
 import StatCard from "@/components/StatCard";
 import { salesData, pricePredictions, cropRecommendations, weatherData, weeklyForecast, orders } from "@/lib/mock-data";
