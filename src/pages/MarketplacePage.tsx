@@ -15,7 +15,7 @@ export default function MarketplacePage() {
   /* FETCH PRODUCTS FROM BACKEND */
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/products")
+      .get("https://farmcart-backend-hs8m.onrender.com/api/products")
       .then((res) => setProducts(res.data))
       .catch((err) => console.error(err));
   }, []);

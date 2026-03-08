@@ -15,7 +15,7 @@ export default function AddProduct() {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:5000/api/products", form);
+      await axios.post("https://farmcart-backend-hs8m.onrender.com/api/products",form);
       alert("Product added successfully 🌾");
     } catch (err) {
       console.error(err);

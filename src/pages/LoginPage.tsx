@@ -15,7 +15,7 @@ export default function LoginPage() {
 
     try {
 
-      const res = await axios.post("http://localhost:5000/login", {
+      const res = await axios.post("https://farmcart-backend-hs8m.onrender.com/api/login", {
         email,
         password
       });
