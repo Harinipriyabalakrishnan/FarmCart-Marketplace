@@ -5,11 +5,11 @@ import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
 /* IMPORT IMAGES */
-import mango from "../assets/images/alphonso mango.jpg";
-import rice from "../assets/images/basmati rice.jpg";
-import cotton from "../assets/images/cotton bales.jpg";
-import chillies from "../assets/images/green chillies.jpg";
-import turmeric from "../assets/images/organic turmeric.jpg";
+import mango from "../assets/images/alphonso-mango.jpg";
+import rice from "../assets/images/basmati-rice.jpg";
+import cotton from "../assets/images/cotton-bales.jpg";
+import chillies from "../assets/images/green-chillies.jpg";
+import turmeric from "../assets/images/organic-turmeric.jpg";
 import sugarcane from "../assets/images/sugarcane.jpg";
 import tomatoes from "../assets/images/tomatoes.jpg";
 import wheat from "../assets/images/wheat.jpg";
