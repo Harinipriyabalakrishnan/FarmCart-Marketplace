@@ -2,10 +2,8 @@ import { useState } from "react";
 import { MessageCircle, X, Send } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-type Role = "user" | "assistant";
-
 interface Message {
-  role: Role;
+  role: "user" | "assistant";
   content: string;
 }
 
@@ -17,7 +15,8 @@ const quickReplies = [
 ];
 
 export default function ChatBot() {
-  const [open, setOpen] = useState<boolean>(false);
+
+  const [open, setOpen] = useState(false);
 
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -27,10 +26,11 @@ export default function ChatBot() {
     },
   ]);
 
-  const [input, setInput] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const sendMessage = async (text: string) => {
+
     if (!text.trim()) return;
 
     const userMsg: Message = { role: "user", content: text };
@@ -40,13 +40,18 @@ export default function ChatBot() {
     setLoading(true);
 
     setTimeout(() => {
+
       const responses: Record<string, string> = {
+
         fertilizer:
           "For wheat, use NPK (12-32-16) during sowing and apply urea after 21 days. Organic option: vermicompost (2 tonnes/acre).",
+
         pest:
           "Pest control tips:\n1. Neem oil spray\n2. Crop rotation\n3. Marigold companion planting\n4. Use beneficial insects",
+
         irrigation:
           "Irrigation tips:\n• Drip irrigation saves 30-50% water\n• Water early morning\n• Use soil moisture sensors\n• Mulching reduces water loss",
+
         weather:
           "Weather impact:\n• High humidity → fungal diseases\n• Frost → cover crops\n• Heavy rain → ensure drainage\n• Follow weather forecasts for spraying",
       };
@@ -60,27 +65,36 @@ export default function ChatBot() {
         {
           role: "assistant",
           content:
-            key && responses[key]
+            key
               ? responses[key]
               : "That's a great question! 🌾 I recommend soil testing, proper irrigation, and balanced fertilizer usage for best crop yield.",
         },
       ]);
 
       setLoading(false);
+
     }, 900);
   };
 
   return (
     <>
+
+      {/* CHAT WINDOW */}
+
       <AnimatePresence>
+
         {open && (
           <motion.div
             initial={{ opacity: 0, y: 40, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.95 }}
-            className="fixed bottom-24 right-4 z-50 flex h-[420px] w-[340px] flex-col overflow-hidden rounded-2xl border bg-white shadow-2xl"
+            className="fixed bottom-24 right-4 z-50 flex h-[420px] w-[340px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl border bg-white shadow-2xl md:bottom-20 md:right-6"
           >
+
+            {/* HEADER */}
+
             <div className="flex items-center justify-between bg-green-600 px-4 py-3">
+
               <div className="flex items-center gap-2">
                 <span className="text-lg">🌱</span>
                 <div>
@@ -99,16 +113,23 @@ export default function ChatBot() {
               >
                 <X size={18} />
               </button>
+
             </div>
 
+            {/* CHAT MESSAGES */}
+
             <div className="flex-1 space-y-3 overflow-y-auto p-4 text-sm">
+
               {messages.map((m, i) => (
                 <div
                   key={i}
                   className={`flex ${
-                    m.role === "user" ? "justify-end" : "justify-start"
+                    m.role === "user"
+                      ? "justify-end"
+                      : "justify-start"
                   }`}
                 >
+
                   <div
                     className={`max-w-[80%] rounded-xl px-3 py-2 ${
                       m.role === "user"
@@ -116,8 +137,11 @@ export default function ChatBot() {
                         : "bg-gray-100 text-gray-800"
                     }`}
                   >
-                    <p className="whitespace-pre-line">{m.content}</p>
+                    <p className="whitespace-pre-line">
+                      {m.content}
+                    </p>
                   </div>
+
                 </div>
               ))}
 
@@ -126,9 +150,29 @@ export default function ChatBot() {
                   FarmCart AI is typing...
                 </div>
               )}
+
             </div>
 
+            {/* QUICK REPLIES */}
+
+            {messages.length <= 1 && (
+              <div className="flex flex-wrap gap-2 border-t px-3 py-2">
+                {quickReplies.map((q) => (
+                  <button
+                    key={q}
+                    onClick={() => sendMessage(q)}
+                    className="rounded-full border px-3 py-1 text-xs hover:bg-gray-100"
+                  >
+                    {q}
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* INPUT */}
+
             <div className="border-t p-3">
+
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -136,6 +180,7 @@ export default function ChatBot() {
                 }}
                 className="flex gap-2"
               >
+
                 <input
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
@@ -150,18 +195,25 @@ export default function ChatBot() {
                 >
                   <Send size={16} />
                 </button>
+
               </form>
+
             </div>
+
           </motion.div>
         )}
+
       </AnimatePresence>
+
+      {/* FLOATING BUTTON */}
 
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green-600 text-white shadow-lg"
+        className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-green-600 text-white shadow-lg hover:scale-105 transition"
       >
         {open ? <X size={22} /> : <MessageCircle size={22} />}
       </button>
+
     </>
   );
 }
