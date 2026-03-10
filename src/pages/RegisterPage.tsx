@@ -30,7 +30,7 @@ export default function RegisterPage() {
 
     try {
 
-      const res = await axios.post("https://farmcart-backend-hs8m.onrender.com/api/register", {
+      const res = await axios.post("https://farmcart-backend-hs8m.onrender.com/register", {
         ...formData,
         role,
       });
