@@ -5,8 +5,7 @@ import dotenv from "dotenv";
 import productRoutes from "./routes/products.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import User from "./models/User.js"; // your user model
-
+import User from "./models/User.js";
 
 dotenv.config();
 
@@ -26,11 +25,10 @@ app.get("/", (req, res) => {
   res.send("FarmCart API Running");
 });
 
+/* PRODUCTS ROUTE */
 app.use("/api/products", productRoutes);
 
-const PORT = process.env.PORT || 5000;
-
-// LOGIN ROUTE
+/* LOGIN ROUTE */
 app.post("/login", async (req, res) => {
 
   const { email, password } = req.body;
@@ -49,8 +47,16 @@ app.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid password" });
     }
 
+    // ✅ CREATE JWT TOKEN
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+
     res.json({
       message: "Login successful",
+      token,
       user
     });
 
@@ -59,6 +65,8 @@ app.post("/login", async (req, res) => {
   }
 
 });
+
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
