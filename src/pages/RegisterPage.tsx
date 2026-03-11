@@ -18,30 +18,46 @@ export default function RegisterPage() {
     farmLocation: "",
   });
 
-  const handleChange = (e:any) => {
+  const handleChange = (e: any) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = async (e:any) => {
+  const handleSubmit = async (e: any) => {
+
     e.preventDefault();
 
     try {
 
-      const res = await axios.post("https://farmcart-backend-hs8m.onrender.com/register", {
-        ...formData,
-        role,
-      });
+      const res = await axios.post(
+        "https://farmcart-backend-hs8m.onrender.com/register",
+        {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          password: formData.password,
+          farmLocation: formData.farmLocation,
+          role: role,
+        }
+      );
+
+      console.log(res.data);
 
       alert("Account created successfully!");
+
       navigate("/login");
 
-    } catch (error) {
-      console.error(error);
-      alert("Registration failed");
+    } catch (error: any) {
+
+      console.error(error.response?.data || error);
+
+      alert(error.response?.data?.message || "Registration failed");
+
     }
+
   };
 
   const backgroundImage =
@@ -50,13 +66,11 @@ export default function RegisterPage() {
       : "/buyerregisterpage.jpg";
 
   return (
-
     <div
       className="relative flex min-h-screen items-center justify-center bg-cover bg-center"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
 
-      {/* overlay */}
       <div className="absolute inset-0 bg-black/50"></div>
 
       <div className="relative z-10 w-full max-w-md bg-white/90 backdrop-blur-md p-8 rounded-2xl shadow-lg">
@@ -74,7 +88,6 @@ export default function RegisterPage() {
 
         <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
 
-          {/* Role Toggle */}
           <div className="flex rounded-xl border p-1">
             {(["farmer", "buyer"] as const).map((r) => (
               <button
@@ -96,6 +109,7 @@ export default function RegisterPage() {
             onChange={handleChange}
             placeholder="First Name"
             className="w-full border p-3 rounded-lg"
+            required
           />
 
           <input
@@ -104,6 +118,7 @@ export default function RegisterPage() {
             onChange={handleChange}
             placeholder="Last Name"
             className="w-full border p-3 rounded-lg"
+            required
           />
 
           <input
@@ -112,6 +127,7 @@ export default function RegisterPage() {
             onChange={handleChange}
             placeholder="Email"
             className="w-full border p-3 rounded-lg"
+            required
           />
 
           <input
@@ -120,6 +136,7 @@ export default function RegisterPage() {
             onChange={handleChange}
             placeholder="Phone"
             className="w-full border p-3 rounded-lg"
+            required
           />
 
           {role === "farmer" && (
@@ -139,6 +156,7 @@ export default function RegisterPage() {
             onChange={handleChange}
             placeholder="Password"
             className="w-full border p-3 rounded-lg"
+            required
           />
 
           <button
