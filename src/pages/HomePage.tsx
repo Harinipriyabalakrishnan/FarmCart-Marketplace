@@ -19,7 +19,7 @@ export default function HomePage() {
 
   {/* Background image */}
   <img
-    src="/farm-bg.jpg"
+    src="/home.jpg"
     className="absolute inset-0 w-full h-full object-cover"
   />
 
