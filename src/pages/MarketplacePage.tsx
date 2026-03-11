@@ -12,12 +12,12 @@ export default function MarketplacePage() {
   const [category, setCategory] = useState("All");
   const [sortBy, setSortBy] = useState("name");
 
-  /* FETCH PRODUCTS FROM BACKEND */
+  /* FETCH PRODUCTS */
   useEffect(() => {
     axios
       .get("https://farmcart-backend-hs8m.onrender.com/api/products")
       .then((res) => setProducts(res.data))
-      .catch((err) => console.error(err));
+      .catch((err) => console.error("Error fetching products:", err));
   }, []);
 
   const filtered = products
@@ -37,6 +37,7 @@ export default function MarketplacePage() {
   return (
     <div className="container mx-auto px-4 py-8">
 
+      {/* HEADER */}
       <div className="mb-8">
         <h1 className="font-heading text-3xl font-bold text-foreground">
           Marketplace
@@ -46,9 +47,10 @@ export default function MarketplacePage() {
         </p>
       </div>
 
-      {/* Filters */}
+      {/* FILTERS */}
       <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 
+        {/* SEARCH */}
         <div className="relative flex-1 max-w-md">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
 
@@ -60,6 +62,7 @@ export default function MarketplacePage() {
           />
         </div>
 
+        {/* CATEGORY + SORT */}
         <div className="flex items-center gap-3">
 
           <div className="flex gap-2 overflow-x-auto">
@@ -91,13 +94,14 @@ export default function MarketplacePage() {
         </div>
       </div>
 
-      {/* Product Grid */}
+      {/* PRODUCTS */}
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filtered.map((p) => (
           <ProductCard key={p._id || p.id} product={p} />
         ))}
       </div>
 
+      {/* EMPTY */}
       {filtered.length === 0 && (
         <div className="py-20 text-center text-muted-foreground">
           No products found matching your criteria.

@@ -22,19 +22,29 @@ const productImages: Record<string, string> = {
   "Green Chillies": chillies,
   "Organic Turmeric": turmeric,
   "Sugarcane": sugarcane,
+  "Tomato": tomatoes,
   "Tomatoes": tomatoes,
   "Wheat": wheat,
 };
 
-export default function ProductCard({ product }: { product: Product }) {
+export default function ProductCard({ product }: { product: any }) {
+
   const addToCart = useCartStore((s) => s.addToCart);
 
-  const image = productImages[product.name];
+  /* HANDLE BOTH id and _id */
+  const productId = product._id || product.id;
+
+  /* IMAGE FALLBACK */
+  const image =
+    productImages[product.name] ||
+    product.image ||
+    "/placeholder.svg";
 
   return (
     <div className="group overflow-hidden rounded-xl border border-border bg-card shadow-card transition-all hover:shadow-elevated">
 
-      <Link to={`/product/${product.id}`}>
+      {/* IMAGE */}
+      <Link to={`/product/${productId}`}>
         <div className="relative aspect-[4/3] overflow-hidden bg-accent">
 
           <img
@@ -51,28 +61,47 @@ export default function ProductCard({ product }: { product: Product }) {
       </Link>
 
       <div className="p-4">
-        <Link to={`/product/${product.id}`}>
+
+        {/* PRODUCT NAME */}
+        <Link to={`/product/${productId}`}>
           <h3 className="font-heading text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
             {product.name}
           </h3>
         </Link>
 
+        {/* FARMER INFO */}
         <div className="mt-1 flex items-center gap-1 text-sm text-muted-foreground">
+
           <MapPin className="h-3.5 w-3.5" />
-          <span>{product.farmerLocation}</span>
+
+          <span>
+            {product.farmerLocation || product.farmer || "Local Farmer"}
+          </span>
+
           <span className="mx-1">·</span>
+
           <Star className="h-3.5 w-3.5 fill-warning text-warning" />
-          <span>{product.rating}</span>
+
+          <span>
+            {product.rating || "4.5"}
+          </span>
+
         </div>
 
+        {/* PRICE */}
         <div className="mt-3 flex items-end justify-between">
+
           <div>
             <p className="font-heading text-xl font-bold text-foreground">
-              ₹{product.price.toLocaleString()}
+              ₹{product.price}
             </p>
-            <p className="text-xs text-muted-foreground">per {product.unit}</p>
+
+            <p className="text-xs text-muted-foreground">
+              per {product.unit || "kg"}
+            </p>
           </div>
 
+          {/* ADD TO CART */}
           <button
             onClick={() => {
               addToCart(product);
@@ -82,7 +111,9 @@ export default function ProductCard({ product }: { product: Product }) {
           >
             <ShoppingCart className="h-4 w-4" />
           </button>
+
         </div>
+
       </div>
     </div>
   );

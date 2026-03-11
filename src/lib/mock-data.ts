@@ -1,15 +1,19 @@
 export interface Product {
-  id: string;
+  _id?: string;   // MongoDB id
+  id?: string;    // local mock id
+
   name: string;
   price: number;
   unit: string;
   quantity: number;
   image: string;
-  farmer: string;
-  farmerLocation: string;
+
+  farmer?: string;
+  farmerLocation?: string;
+
   category: string;
-  description: string;
-  rating: number;
+  description?: string;
+  rating?: number;
 }
 
 export interface WeatherData {
