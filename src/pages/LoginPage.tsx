@@ -22,12 +22,9 @@ export default function LoginPage() {
 
       alert("Login successful!");
 
-      console.log(res.data);
-
-      // ✅ Save user session
+      localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
-      // ✅ Redirect based on role
       if(res.data.user.role === "farmer"){
         navigate("/farmer-dashboard")
       }
@@ -47,8 +44,16 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md">
+
+    <div
+      className="relative flex min-h-screen items-center justify-center bg-cover bg-center"
+      style={{ backgroundImage: "url('/loginpage.jpg')" }}
+    >
+
+      {/* dark overlay */}
+      <div className="absolute inset-0 bg-black/50"></div>
+
+      <div className="relative z-10 w-full max-w-md bg-white/90 backdrop-blur-md p-8 rounded-2xl shadow-lg">
 
         <div className="text-center">
           <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-green-600">
@@ -56,7 +61,7 @@ export default function LoginPage() {
           </div>
 
           <h1 className="mt-4 text-2xl font-bold">Welcome back</h1>
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-gray-600">
             Sign in to your FarmCart account
           </p>
         </div>
@@ -83,7 +88,7 @@ export default function LoginPage() {
 
           <button
             type="submit"
-            className="w-full bg-green-600 text-white py-3 rounded-lg"
+            className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700"
           >
             Sign In
           </button>
@@ -98,6 +103,7 @@ export default function LoginPage() {
         </p>
 
       </div>
+
     </div>
   );
 }

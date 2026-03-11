@@ -15,50 +15,44 @@ export default function HomePage() {
   return (
     <div className="min-h-screen">
       {/* Hero */}
-<section className="relative text-white py-28">
+      <section className="relative h-[90vh] flex items-center">
 
-  {/* Background Image */}
+  {/* Background image */}
   <img
-    src={heroFarm}
-    alt="Farm"
+    src="/farm-bg.jpg"
     className="absolute inset-0 w-full h-full object-cover"
   />
 
-  {/* Dark overlay */}
-  <div className="absolute inset-0 bg-black/50"></div>
+  {/* Overlay */}
+  <div className="absolute inset-0 bg-black/40"></div>
 
   {/* Content */}
-  <div className="relative max-w-6xl mx-auto text-center px-6">
+  <div className="relative z-10 max-w-5xl px-10 text-white">
 
-    <div className="inline-block border border-white/40 rounded-full px-5 py-2 mb-6 text-sm">
-      🌾 AI-Powered Agriculture Marketplace
+    <div className="bg-green-700/80 inline-block px-4 py-1 rounded-full text-sm mb-6">
+      🌱 AI-Powered Agriculture
     </div>
 
-    <h1 className="text-6xl font-bold leading-tight">
-      Farm Fresh, <br />
-      <span className="text-green-300">Directly to You</span>
+    <h1 className="text-6xl font-bold leading-tight mb-6">
+      Farm Fresh,
+      <br />
+      Direct to You
     </h1>
 
-    <p className="mt-6 text-lg text-gray-200 max-w-3xl mx-auto">
-      Connect with local farmers, get AI-powered crop recommendations,
-      real-time market prices, and smart farming insights — all in one platform.
+    <p className="text-lg text-gray-200 max-w-xl mb-8">
+      FarmCart connects farmers directly with buyers — no middlemen.
+      Powered by AI for smarter farming and fairer prices.
     </p>
 
-    <div className="mt-10 flex justify-center gap-6">
-
-      <button className="bg-white text-green-800 font-semibold px-6 py-3 rounded-lg hover:bg-gray-200 transition">
-        Explore Marketplace →
-      </button>
-
-      <button className="border border-white px-6 py-3 rounded-lg hover:bg-white hover:text-green-800 transition">
-        Start Selling
-      </button>
-
-    </div>
+    <button className="bg-green-600 hover:bg-green-700 px-6 py-3 rounded-lg font-semibold">
+      Browse Marketplace →
+    </button>
 
   </div>
 
 </section>
+
+
       {/* Features */}
       <section className="py-20">
         <div className="container mx-auto px-4">

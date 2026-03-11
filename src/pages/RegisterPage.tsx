@@ -1,10 +1,10 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Leaf } from "lucide-react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 export default function RegisterPage() {
+
   const navigate = useNavigate();
 
   const [role, setRole] = useState<"farmer" | "buyer">("farmer");
@@ -18,14 +18,14 @@ export default function RegisterPage() {
     farmLocation: "",
   });
 
-  const handleChange = (e: any) => {
+  const handleChange = (e:any) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e:any) => {
     e.preventDefault();
 
     try {
@@ -38,25 +38,36 @@ export default function RegisterPage() {
       alert("Account created successfully!");
       navigate("/login");
 
-      console.log(res.data);
-
     } catch (error) {
       console.error(error);
       alert("Registration failed");
     }
   };
 
+  const backgroundImage =
+    role === "farmer"
+      ? "/farmerregisteration.jpg"
+      : "/buyerregisterpage.jpg";
+
   return (
-    <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md">
+
+    <div
+      className="relative flex min-h-screen items-center justify-center bg-cover bg-center"
+      style={{ backgroundImage: `url(${backgroundImage})` }}
+    >
+
+      {/* overlay */}
+      <div className="absolute inset-0 bg-black/50"></div>
+
+      <div className="relative z-10 w-full max-w-md bg-white/90 backdrop-blur-md p-8 rounded-2xl shadow-lg">
 
         <div className="text-center">
-          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl gradient-primary">
-            <Leaf className="h-7 w-7 text-primary-foreground" />
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-green-600">
+            <Leaf className="h-7 w-7 text-white" />
           </div>
 
           <h1 className="mt-4 text-2xl font-bold">Create account</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="mt-1 text-sm text-gray-600">
             Join FarmCart as a farmer or buyer
           </p>
         </div>
@@ -132,7 +143,7 @@ export default function RegisterPage() {
 
           <button
             type="submit"
-            className="w-full bg-green-600 text-white py-3 rounded-lg"
+            className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700"
           >
             Create Account
           </button>
@@ -147,6 +158,7 @@ export default function RegisterPage() {
         </p>
 
       </div>
+
     </div>
   );
 }
