@@ -46,9 +46,19 @@ export default function RegisterPage() {
 
       console.log(res.data);
 
+      const user = res.data.user;
+
+      // Save user session
+      localStorage.setItem("user", JSON.stringify(user));
+
       alert("Account created successfully!");
 
-      navigate("/login");
+      // Redirect directly based on role
+      if (user.role === "farmer") {
+        navigate("/farmer-dashboard");
+      } else if (user.role === "buyer") {
+        navigate("/buyer-dashboard");
+      }
 
     } catch (error: any) {
 
@@ -88,6 +98,7 @@ export default function RegisterPage() {
 
         <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
 
+          {/* Role Toggle */}
           <div className="flex rounded-xl border p-1">
             {(["farmer", "buyer"] as const).map((r) => (
               <button
