@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Leaf, TrendingUp, Cloud, Bot, Satellite, Shield } from "lucide-react";
-import heroFarm from "../assets/images/home.jpg";
+import home from "../assets/images/home.jpg";
 const features = [
   { icon: <Leaf className="h-6 w-6" />, title: "Direct Farm Sales", desc: "Buy directly from farmers. No middlemen, fair prices." },
   { icon: <TrendingUp className="h-6 w-6" />, title: "AI Price Prediction", desc: "ML-powered market price forecasting and trends." },
@@ -19,10 +19,12 @@ export default function HomePage() {
 
   {/* Background image */}
   <img
-    src="/homefarm.jpg"
+    src={home}
+    alt="FarmCart Agriculture Marketplace"
     className="absolute inset-0 w-full h-full object-cover"
+    loading="eager"
   />
-
+  
   {/* Overlay */}
   <div className="absolute inset-0 bg-black/40"></div>
 
