@@ -18,6 +18,7 @@ import FarmerDashboard from "@/pages/FarmerDashboard";
 import BuyerDashboard from "@/pages/BuyerDashboard";
 import AdminDashboard from "@/pages/AdminDashboard";
 import NotFound from "@/pages/NotFound";
+import FarmerAddProduct from "./pages/FarmerAddProduct";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ const App = () => (
           <Route path="/buyer-dashboard" element={<BuyerDashboard />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="*" element={<NotFound />} />
+          <Route path="/add-product" element={<FarmerAddProduct />} />
         </Routes>
         <MobileNav />
         <ChatBot />
