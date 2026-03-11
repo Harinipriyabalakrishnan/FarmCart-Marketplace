@@ -2,9 +2,9 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import productRoutes from "./routes/products.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import productRoutes from "./routes/products.js";
 import User from "./models/User.js";
 
 dotenv.config();
@@ -14,6 +14,8 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+/* ================= DATABASE ================= */
+
 const MONGO_URI = process.env.MONGO_URI;
 
 mongoose
@@ -21,26 +23,38 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
+/* ================= HOME ================= */
+
 app.get("/", (req, res) => {
   res.send("FarmCart API Running");
 });
 
-/* PRODUCTS ROUTE */
+/* ================= PRODUCTS ================= */
+
 app.use("/api/products", productRoutes);
 
-
-/* ================= REGISTER ROUTE ================= */
+/* ================= REGISTER ================= */
 
 app.post("/register", async (req, res) => {
 
   try {
 
-    const { firstName, lastName, email, phone, password, role, farmLocation } = req.body;
+    const {
+      firstName,
+      lastName,
+      email,
+      phone,
+      password,
+      role,
+      farmLocation
+    } = req.body;
 
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
+      return res.status(400).json({
+        message: "User already exists"
+      });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -64,14 +78,16 @@ app.post("/register", async (req, res) => {
   } catch (error) {
 
     console.error(error);
-    res.status(500).json({ message: "Registration failed" });
+
+    res.status(500).json({
+      message: "Registration failed"
+    });
 
   }
 
 });
 
-
-/* ================= LOGIN ROUTE ================= */
+/* ================= LOGIN ================= */
 
 app.post("/login", async (req, res) => {
 
@@ -82,18 +98,32 @@ app.post("/login", async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(400).json({ message: "User not found" });
+      return res.status(400).json({
+        message: "User not found"
+      });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    let isMatch = false;
+
+    /* check bcrypt password */
+    if (user.password.startsWith("$2b$")) {
+      isMatch = await bcrypt.compare(password, user.password);
+    }
+
+    /* check plain password (for old users) */
+    if (!isMatch && user.password === password) {
+      isMatch = true;
+    }
 
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid password" });
+      return res.status(400).json({
+        message: "Invalid password"
+      });
     }
 
     const token = jwt.sign(
       { id: user._id, role: user.role },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET || "farmcartsecret",
       { expiresIn: "1d" }
     );
 
@@ -105,11 +135,17 @@ app.post("/login", async (req, res) => {
 
   } catch (error) {
 
-    res.status(500).json({ message: "Server error" });
+    console.error(error);
+
+    res.status(500).json({
+      message: "Server error"
+    });
 
   }
 
 });
+
+/* ================= SERVER ================= */
 
 const PORT = process.env.PORT || 5000;
 
